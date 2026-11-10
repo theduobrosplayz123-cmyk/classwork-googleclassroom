@@ -1,0 +1,164 @@
+:root{
+  --bg:#05060d; --panel:rgba(12,16,32,.82); --line:rgba(0,240,255,.25);
+  --cyan:#00f0ff; --pink:#ff2bd6; --text:#dff8ff; --muted:#7f9bb3;
+  --tb-h:56px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Rajdhani,system-ui,sans-serif}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+
+/* ---------- Lock screen ---------- */
+#lock{position:fixed;inset:0;z-index:9999;color:#fff;cursor:pointer;outline:none;font-family:"Segoe UI",system-ui,sans-serif;
+  background:url(assets/lockscreen.png) center/cover no-repeat #000;transition:transform .5s ease,opacity .5s}
+#lock::before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(0,0,0,.45))}
+#lock.up{transform:translateY(-100%);opacity:0;pointer-events:none}
+.lock-clock{position:absolute;left:4vw;bottom:18vh;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+#lock-time{font-size:clamp(64px,11vw,140px);font-weight:200;line-height:1}
+#lock-date{font-size:clamp(24px,3.6vw,46px);font-weight:300;margin-top:6px}
+.lock-status{position:absolute;right:3vw;bottom:4vh;display:flex;gap:18px;font-size:18px}
+.lock-hint{position:absolute;left:0;right:0;bottom:4vh;text-align:center;font-size:14px;opacity:.75}
+
+/* ---------- Password screen ---------- */
+#login{position:fixed;inset:0;z-index:9998;display:grid;place-items:center;color:#fff;font-family:"Segoe UI",system-ui,sans-serif;
+  background:radial-gradient(ellipse at 78% 45%,rgba(0,140,255,.55),transparent 35%),linear-gradient(115deg,#020611 0,#03163a 55%,#062a66 100%);transition:opacity .5s}
+#login::after{content:"";position:absolute;right:8%;top:30%;width:min(26vw,260px);aspect-ratio:1.1;transform:perspective(600px) rotateY(-28deg);
+  background:linear-gradient(#0af 0 0) center/3px 100% no-repeat,linear-gradient(#0af 0 0) center/100% 3px no-repeat,linear-gradient(135deg,rgba(0,170,255,.55),rgba(0,90,200,.2));
+  box-shadow:0 0 60px rgba(0,160,255,.6);pointer-events:none}
+#login[hidden]{display:none}
+#login.done{opacity:0}
+.login-box{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:14px}
+.avatar{width:190px;height:190px;border-radius:50%;background:#6b6b6b;display:grid;place-items:center}
+.avatar svg{width:52%;height:52%}
+.login-name{font-size:38px;font-weight:300}
+.pw-row{display:flex;width:300px;height:34px;border:2px solid rgba(255,255,255,.6);background:rgba(0,0,0,.45)}
+.pw-row:focus-within{border-color:#fff}
+.pw-row input{flex:1;min-width:0;border:0;background:transparent;outline:none;padding:0 10px;color:#fff}
+.pw-row button{width:34px;border:0;background:rgba(255,255,255,.25);color:#fff;font-size:16px}
+.pw-row button:hover{background:rgba(255,255,255,.4)}
+#pw-msg{min-height:20px;font-size:14px;color:#ffb4b4}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.login-hint{position:absolute;left:0;right:0;bottom:5vh;text-align:center;font-size:16px;opacity:.9}
+.login-icons{position:absolute;right:3vw;bottom:4vh;display:flex;gap:18px;align-items:center;font-size:20px}
+.login-icons button{border:0;background:none;color:#fff;font-size:20px}
+
+/* ---------- Desktop ---------- */
+#desktop{position:fixed;inset:0 0 var(--tb-h) 0;
+  background:
+   linear-gradient(rgba(0,240,255,.05) 1px,transparent 1px) 0 0/40px 40px,
+   linear-gradient(90deg,rgba(0,240,255,.05) 1px,transparent 1px) 0 0/40px 40px,
+   radial-gradient(ellipse at 80% 10%,rgba(255,43,214,.25),transparent 50%),
+   radial-gradient(ellipse at 10% 90%,rgba(0,240,255,.2),transparent 50%),#070914}
+#icons{position:absolute;top:16px;left:16px;display:grid;grid-auto-flow:column;grid-template-rows:repeat(auto-fill,96px);gap:8px;height:calc(100% - 32px)}
+.icon{width:84px;padding:8px 4px;border:1px solid transparent;border-radius:10px;background:none;text-align:center;font-size:13px}
+.icon:hover,.icon:focus-visible{background:rgba(0,240,255,.08);border-color:var(--line);outline:none}
+.icon .glyph{display:grid;place-items:center;width:48px;height:48px;margin:0 auto 6px;border-radius:12px;font-size:24px;
+  background:linear-gradient(135deg,rgba(0,240,255,.2),rgba(255,43,214,.2));border:1px solid var(--line);box-shadow:0 0 12px rgba(0,240,255,.15)}
+
+/* ---------- Windows ---------- */
+.win{position:absolute;display:flex;flex-direction:column;min-width:320px;min-height:220px;
+  background:var(--panel);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 0 1px rgba(255,43,214,.08);overflow:hidden;resize:both}
+.win.active{border-color:rgba(0,240,255,.6);box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 22px rgba(0,240,255,.25)}
+.win.max{inset:0!important;width:auto!important;height:auto!important;border-radius:0;resize:none}
+.win.min{display:none}
+.titlebar{display:flex;align-items:center;gap:8px;height:38px;padding:0 6px 0 12px;flex:none;cursor:grab;user-select:none;
+  background:linear-gradient(90deg,rgba(0,240,255,.12),rgba(255,43,214,.1));border-bottom:1px solid var(--line)}
+.titlebar .t{flex:1;font-family:Orbitron;font-size:12px;letter-spacing:.08em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.titlebar button{width:30px;height:26px;border:0;border-radius:6px;background:transparent}
+.titlebar button:hover{background:rgba(255,255,255,.1)}
+.titlebar button.x:hover{background:#e0245e}
+.body{flex:1;min-height:0;display:flex;flex-direction:column;position:relative}
+
+/* ---------- Website bar (browser) ---------- */
+.webbar{display:flex;align-items:center;gap:6px;padding:6px 8px;flex:none;background:#0a0f1f;border-bottom:1px solid var(--line)}
+.webbar button{width:32px;height:30px;border:1px solid transparent;border-radius:8px;background:transparent;font-size:15px}
+.webbar button:hover{background:rgba(0,240,255,.1);border-color:var(--line)}
+.webbar form{flex:1;display:flex;align-items:center;gap:8px;height:32px;padding:0 12px;border-radius:16px;background:#121a30;border:1px solid var(--line)}
+.webbar form:focus-within{border-color:var(--cyan);box-shadow:0 0 10px rgba(0,240,255,.3)}
+.webbar .ddg{width:18px;height:18px;border-radius:50%;background:#de5833;display:grid;place-items:center;font-size:10px;font-weight:700;color:#fff;flex:none}
+.webbar input{flex:1;min-width:0;border:0;background:transparent;outline:none;font-size:14px}
+.webview{flex:1;border:0;width:100%;background:#fff}
+.loadline{position:absolute;top:44px;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:width .4s,opacity .4s}
+
+/* ---------- Taskbar ---------- */
+#taskbar{position:fixed;left:0;right:0;bottom:0;height:var(--tb-h);z-index:900;display:flex;align-items:center;gap:8px;padding:0 10px;
+  background:rgba(8,11,24,.9);backdrop-filter:blur(16px);border-top:1px solid var(--line);box-shadow:0 -6px 24px rgba(0,240,255,.08)}
+#start-btn{flex:none;width:44px;height:40px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(135deg,rgba(0,240,255,.2),rgba(255,43,214,.25))}
+#start-btn:hover{box-shadow:0 0 14px var(--cyan)}
+.logo-mark{font-size:14px;color:var(--cyan);letter-spacing:-3px}
+#tb-search{flex:none;display:flex;align-items:center;gap:6px;width:220px;height:38px;padding:0 12px;border-radius:19px;background:#121a30;border:1px solid var(--line)}
+#tb-search input{flex:1;min-width:0;border:0;background:transparent;outline:none}
+#tb-apps{flex:1;display:flex;gap:4px;justify-content:center;min-width:0;overflow-x:auto;scrollbar-width:none}
+.tb-app{position:relative;flex:none;width:44px;height:40px;border:1px solid transparent;border-radius:10px;background:transparent;font-size:20px}
+.tb-app:hover{background:rgba(0,240,255,.1);border-color:var(--line)}
+.tb-app.open::after{content:"";position:absolute;bottom:3px;left:50%;width:6px;height:3px;margin-left:-3px;border-radius:2px;background:var(--muted)}
+.tb-app.focused::after{width:16px;margin-left:-8px;background:var(--cyan);box-shadow:0 0 6px var(--cyan)}
+.tb-right{flex:none;display:flex;align-items:center;gap:6px}
+#weather-chip{height:38px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:rgba(0,240,255,.06)}
+#weather-chip:hover{background:rgba(0,240,255,.15)}
+#tb-clock{display:flex;flex-direction:column;align-items:flex-end;padding:0 6px;font-size:12px;line-height:1.25}
+#clock-time{font-family:Orbitron;font-size:13px;color:var(--cyan)}
+@media (max-width:700px){#tb-search{display:none}#weather-chip span{display:none}}
+
+/* ---------- Start menu ---------- */
+#start-menu{position:fixed;left:10px;bottom:calc(var(--tb-h) + 8px);z-index:950;width:min(380px,calc(100vw - 20px));padding:16px;
+  background:var(--panel);backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.sm-head{font-family:Orbitron;font-weight:800;color:var(--cyan);letter-spacing:.1em;margin-bottom:10px}
+.sm-head span,.boot-logo span{margin-left:.2em}
+.sm-head span{color:var(--pink)}
+#sm-search{width:100%;height:36px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:#121a30;outline:none;margin-bottom:12px}
+#sm-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+#sm-apps .icon{width:auto}
+.sm-foot{display:flex;justify-content:flex-end;margin-top:10px}
+.sm-foot button{border:1px solid var(--line);background:transparent;border-radius:8px;padding:4px 12px}
+
+/* ---------- Store ---------- */
+.pad{padding:16px;overflow:auto;flex:1}
+.store-hero{padding:18px;border-radius:12px;margin-bottom:14px;background:linear-gradient(120deg,rgba(0,240,255,.18),rgba(255,43,214,.18));border:1px solid var(--line)}
+.store-hero h2{margin:0;font-family:Orbitron;font-size:18px}
+.store-hero p{margin:4px 0 0;color:var(--muted)}
+.store-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.card{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid var(--line)}
+.card .glyph{flex:none;width:46px;height:46px;display:grid;place-items:center;font-size:24px;border-radius:12px;background:linear-gradient(135deg,rgba(0,240,255,.2),rgba(255,43,214,.2))}
+.card .info{flex:1;min-width:0}
+.card b{display:block}
+.card small{color:var(--muted)}
+.btn{border:1px solid var(--cyan);background:rgba(0,240,255,.12);color:var(--cyan);border-radius:8px;padding:5px 12px;font-weight:600}
+.btn:hover{background:var(--cyan);color:#001018}
+.btn.ghost{border-color:var(--muted);color:var(--muted);background:transparent}
+
+/* ---------- Weather ---------- */
+.wx-form{display:flex;gap:8px;margin-bottom:14px}
+.wx-form input{flex:1;height:36px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:#121a30;outline:none}
+.wx-now{display:flex;align-items:center;gap:18px;padding:16px;border-radius:12px;border:1px solid var(--line);background:rgba(0,240,255,.05)}
+.wx-now .big{font-family:Orbitron;font-size:46px;color:var(--cyan)}
+.wx-now .ico{font-size:52px}
+.wx-meta{color:var(--muted)}
+.wx-days{display:grid;grid-template-columns:repeat(auto-fit,minmax(86px,1fr));gap:8px;margin-top:12px}
+.wx-day{text-align:center;padding:10px 4px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+.wx-day .ico{font-size:24px}
+.muted{color:var(--muted)}
+
+/* ---------- Syber-Tube ---------- */
+.tube{display:flex;flex-direction:column;flex:1;min-height:0}
+.tube-list{flex:1;overflow:auto;padding:10px}
+.track{display:flex;align-items:center;gap:12px;width:100%;padding:8px 10px;border:0;border-radius:8px;background:transparent;text-align:left}
+.track:hover{background:rgba(255,255,255,.05)}
+.track.on{background:rgba(0,240,255,.1);color:var(--cyan)}
+.track .n{width:20px;color:var(--muted)}
+.track .art{width:38px;height:38px;border-radius:6px;flex:none}
+.player{flex:none;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--line);background:#080c1a}
+.player .now{display:flex;align-items:center;gap:10px;min-width:0}
+.player .now div{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctrls{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:260px}
+.ctrls .row{display:flex;align-items:center;gap:8px}
+.ctrls button{width:34px;height:34px;border:0;border-radius:50%;background:transparent;font-size:15px}
+.ctrls button:hover{color:var(--cyan)}
+.ctrls button.on{color:var(--cyan)}
+.ctrls button.play{background:var(--text);color:#000;font-size:14px}
+.prog{display:flex;align-items:center;gap:8px;width:100%;font-size:11px;color:var(--muted)}
+.prog input,.vol input{flex:1;accent-color:var(--cyan)}
+.vol{display:flex;align-items:center;gap:6px;justify-content:flex-end}
+.vol input{max-width:110px}
